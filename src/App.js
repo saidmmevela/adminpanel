@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -37,7 +37,7 @@ import theme from "assets/theme";
 // RTL plugins
 // import rtlPlugin from "stylis-plugin-rtl";
 // import { CacheProvider } from "@emotion/react";
-import createCache from "@emotion/cache";
+// import createCache from "@emotion/cache";
 
 // Soft UI Dashboard React routes
 import routes from "routes";
@@ -56,14 +56,14 @@ export default function App() {
   const { pathname } = useLocation();
 
   // Cache for the rtl
-  useMemo(() => {
-    const cacheRtl = createCache({
-      key: "rtl",
-      stylisPlugins: [rtlPlugin],
-    });
+  // useMemo(() => {
+  //   const cacheRtl = createCache({
+  //     key: "rtl",
+  //     stylisPlugins: [rtlPlugin],
+  //   });
 
-    setRtlCache(cacheRtl);
-  }, []);
+  //   setRtlCache(cacheRtl);
+  // }, []);
 
   // Open sidenav when mouse enter on mini sidenav
   const handleOnMouseEnter = () => {
@@ -131,7 +131,7 @@ export default function App() {
       </Icon>
     </SuiBox>
   );
-  
+
   // return direction === "rtl" ? (
   //   <CacheProvider value={rtlCache}>
   //     <ThemeProvider theme={themeRTL}>
@@ -158,7 +158,7 @@ export default function App() {
   //     </ThemeProvider>
   //   </CacheProvider>
   // ) : (
-    return  (<ThemeProvider theme={theme}>
+return (<ThemeProvider theme={theme}>
       <CssBaseline />
       {layout === "dashboard" && (
         <>
@@ -180,5 +180,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </ThemeProvider>);
+    
   // );
 }
