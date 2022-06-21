@@ -158,7 +158,8 @@ export default function App() {
   //     </ThemeProvider>
   //   </CacheProvider>
   // ) : (
-return (<ThemeProvider theme={theme}>
+  return  (
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       {layout === "dashboard" && (
         <>
@@ -179,7 +180,7 @@ return (<ThemeProvider theme={theme}>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
-    </ThemeProvider>);
-    
+    </ThemeProvider>
+  );
   // );
 }
