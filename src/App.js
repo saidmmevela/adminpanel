@@ -158,7 +158,7 @@ export default function App() {
   //     </ThemeProvider>
   //   </CacheProvider>
   // ) : (
-  return  (
+  return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {layout === "dashboard" && (
