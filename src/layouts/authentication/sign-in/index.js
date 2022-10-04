@@ -37,6 +37,30 @@ function SignIn() {
   const [rememberMe, setRememberMe] = useState(true);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // const [head, setHeads] = useState([]);
+  const handleSubmit = async(event)=>{
+    const log={
+      email,
+      password
+    }
+    const response = await fetch("https://bizzynapp.herokuapp.com/api/userlogin",{
+      method:"POST",body:JSON.stringify(log)
+    });
+    const data = await response.json();
+    console.log("data",data);
+
+  };
+  // const fetchPost = async () => {
+  //   const response = await fetch("https://homecareapiapps.herokuapp.com/api/getheader/");
+  //   const data = await response.json();
+  //   setHeads(data[0]);
+  // };
+
+  // useEffect(() => {
+  //   fetchPost();
+  // }, []);
 
   return (
     <CoverLayout
@@ -51,7 +75,7 @@ function SignIn() {
               Email
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="email" placeholder="Email" />
+          <SuiInput type="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
         </SuiBox>
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
@@ -59,7 +83,7 @@ function SignIn() {
               Password
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="password" placeholder="Password" />
+          <SuiInput type="password" placeholder="Password"  value={password} onChange={(e)=>setPassword(e.target.value)}/>
         </SuiBox>
         <SuiBox display="flex" alignItems="center">
           <Switch checked={rememberMe} onChange={handleSetRememberMe} />
@@ -73,7 +97,7 @@ function SignIn() {
           </SuiTypography>
         </SuiBox>
         <SuiBox mt={4} mb={1}>
-          <SuiButton variant="gradient" color="info" fullWidth>
+          <SuiButton variant="gradient" color="info" onClick={handleSubmit} fullWidth>
             sign in
           </SuiButton>
         </SuiBox>
