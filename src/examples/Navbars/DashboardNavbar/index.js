@@ -25,7 +25,7 @@ import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
+// import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
 
 // Soft UI Dashboard React components
@@ -35,7 +35,7 @@ import SuiInput from "components/SuiInput";
 
 // Soft UI Dashboard React examples
 import Breadcrumbs from "examples/Breadcrumbs";
-import NotificationItem from "examples/Items/NotificationItem";
+// import NotificationItem from "examples/Items/NotificationItem";
 
 // Custom styles for DashboardNavbar
 import {
@@ -51,18 +51,18 @@ import {
   useSoftUIController,
   setTransparentNavbar,
   setMiniSidenav,
-  setOpenConfigurator,
+  // setOpenConfigurator,
 } from "context";
 
 // Images
-import team2 from "assets/images/team-2.jpg";
-import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
+// import team2 from "assets/images/team-2.jpg";
+// import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useSoftUIController();
-  const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator } = controller;
-  const [openMenu, setOpenMenu] = useState(false);
+  const { miniSidenav, transparentNavbar, fixedNavbar } = controller;
+  // const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
 
   useEffect(() => {
@@ -92,48 +92,48 @@ function DashboardNavbar({ absolute, light, isMini }) {
   }, [dispatch, fixedNavbar]);
 
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
-  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
-  const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
-  const handleCloseMenu = () => setOpenMenu(false);
+  // const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
+  // const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
+  // const handleCloseMenu = () => setOpenMenu(false);
 
   // Render the notifications menu
-  const renderMenu = () => (
-    <Menu
-      anchorEl={openMenu}
-      anchorReference={null}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
-      }}
-      open={Boolean(openMenu)}
-      onClose={handleCloseMenu}
-      sx={{ mt: 2 }}
-    >
-      <NotificationItem
-        image={<img src={team2} alt="person" />}
-        title={["New message", "from Laur"]}
-        date="13 minutes ago"
-        onClick={handleCloseMenu}
-      />
-      <NotificationItem
-        image={<img src={logoSpotify} alt="person" />}
-        title={["New album", "by Travis Scott"]}
-        date="1 day"
-        onClick={handleCloseMenu}
-      />
-      <NotificationItem
-        color="secondary"
-        image={
-          <Icon fontSize="small" sx={{ color: ({ palette: { white } }) => white.main }}>
-            payment
-          </Icon>
-        }
-        title={["", "Payment successfully completed"]}
-        date="2 days"
-        onClick={handleCloseMenu}
-      />
-    </Menu>
-  );
+  // const renderMenu = () => (
+  //   <Menu
+  //     anchorEl={openMenu}
+  //     anchorReference={null}
+  //     anchorOrigin={{
+  //       vertical: "bottom",
+  //       horizontal: "left",
+  //     }}
+  //     open={Boolean(openMenu)}
+  //     onClose={handleCloseMenu}
+  //     sx={{ mt: 2 }}
+  //   >
+  //     <NotificationItem
+  //       image={<img src={team2} alt="person" />}
+  //       title={["New message", "from Laur"]}
+  //       date="13 minutes ago"
+  //       onClick={handleCloseMenu}
+  //     />
+  //     <NotificationItem
+  //       image={<img src={logoSpotify} alt="person" />}
+  //       title={["New album", "by Travis Scott"]}
+  //       date="1 day"
+  //       onClick={handleCloseMenu}
+  //     />
+  //     <NotificationItem
+  //       color="secondary"
+  //       image={
+  //         <Icon fontSize="small" sx={{ color: ({ palette: { white } }) => white.main }}>
+  //           payment
+  //         </Icon>
+  //       }
+  //       title={["", "Payment successfully completed"]}
+  //       date="2 days"
+  //       onClick={handleCloseMenu}
+  //     />
+  //   </Menu>
+  // );
 
   return (
     <AppBar
@@ -182,15 +182,15 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
-              <IconButton
+              {/* <IconButton
                 size="small"
                 color="inherit"
                 sx={navbarIconButton}
                 onClick={handleConfiguratorOpen}
               >
                 <Icon>settings</Icon>
-              </IconButton>
-              <IconButton
+              </IconButton> */}
+              {/* <IconButton
                 size="small"
                 color="inherit"
                 sx={navbarIconButton}
@@ -200,8 +200,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 onClick={handleOpenMenu}
               >
                 <Icon className={light ? "text-white" : "text-dark"}>notifications</Icon>
-              </IconButton>
-              {renderMenu()}
+              </IconButton> */}
+              {/* {renderMenu()} */}
             </SuiBox>
           </SuiBox>
         )}

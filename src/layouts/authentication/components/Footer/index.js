@@ -31,7 +31,7 @@ function Footer() {
   return (
     <SuiBox component="footer" py={6}>
       <Grid container justifyContent="center">
-        <Grid item xs={10} lg={8}>
+        {/* <Grid item xs={10} lg={8}>
           <SuiBox display="flex" justifyContent="center" flexWrap="wrap" mb={3}>
             <SuiBox mr={{ xs: 2, lg: 3, xl: 6 }}>
               <SuiTypography component="a" href="#" variant="body2" color="secondary">
@@ -64,7 +64,7 @@ function Footer() {
               </SuiTypography>
             </SuiBox>
           </SuiBox>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} lg={8}>
           <SuiBox display="flex" justifyContent="center" mt={1} mb={3}>
             <SuiBox mr={3} color="secondary">
@@ -86,7 +86,7 @@ function Footer() {
         </Grid>
         <Grid item xs={12} lg={8} sx={{ textAlign: "center" }}>
           <SuiTypography variant="body2" color="secondary">
-            Copyright &copy; 2021 Soft by Creative Tim.
+            Copyright &copy; 2022 Soft by Said Mmevela.
           </SuiTypography>
         </Grid>
       </Grid>

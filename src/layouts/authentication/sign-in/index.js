@@ -19,7 +19,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 // @mui material components
-import Switch from "@mui/material/Switch";
+// import Switch from "@mui/material/Switch";
 
 // Soft UI Dashboard React components
 import SuiBox from "components/SuiBox";
@@ -34,9 +34,9 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 import curved9 from "assets/images/curved-images/curved-6.jpg";
 
 function SignIn() {
-  const [rememberMe, setRememberMe] = useState(true);
+  // const [rememberMe, setRememberMe] = useState(true);
 
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  // const handleSetRememberMe = () => setRememberMe(!rememberMe);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const [head, setHeads] = useState([]);
@@ -45,13 +45,12 @@ function SignIn() {
       email,
       password,
     };
-  const response = await fetch("https://bizzynapp.herokuapp.com/api/userlogin",{
+    const response = await fetch("https://bizzynapp.herokuapp.com/api/userlogin", {
       method: "POST",
-      body: JSON.stringify(log)
-  });
+      body: JSON.stringify(log),
+    });
     const data = await response.json();
     console.log("data", data);
-
   };
   // const fetchPost = async () => {
   //   const response = await fetch("https://homecareapiapps.herokuapp.com/api/getheader/");
@@ -76,11 +75,11 @@ function SignIn() {
               Email
             </SuiTypography>
           </SuiBox>
-          <SuiInput 
-            type="email" 
-            placeholder="Email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
+          <SuiInput
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </SuiBox>
         <SuiBox mb={2}>
@@ -89,14 +88,14 @@ function SignIn() {
               Password
             </SuiTypography>
           </SuiBox>
-          <SuiInput 
-            type="password" 
-            placeholder="Password"  
-            value={password} 
+          <SuiInput
+            type="password"
+            placeholder="Password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </SuiBox>
-        <SuiBox display="flex" alignItems="center">
+        {/* <SuiBox display="flex" alignItems="center">
           <Switch checked={rememberMe} onChange={handleSetRememberMe} />
           <SuiTypography
             variant="button"
@@ -106,7 +105,7 @@ function SignIn() {
           >
             &nbsp;&nbsp;Remember me
           </SuiTypography>
-        </SuiBox>
+        </SuiBox> */}
         <SuiBox mt={4} mb={1}>
           <SuiButton variant="gradient" color="info" onClick={handleSubmit} fullWidth>
             sign in

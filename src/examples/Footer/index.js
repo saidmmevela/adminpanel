@@ -27,8 +27,8 @@ import SuiTypography from "components/SuiTypography";
 // Soft UI Dashboard React base styles
 import typography from "assets/theme/base/typography";
 
-function Footer({ company, links }) {
-  const { href, name } = company;
+function Footer({ links }) {
+  // const { href,name } = company;
   const { size } = typography;
 
   const renderLinks = () =>
@@ -67,9 +67,9 @@ function Footer({ company, links }) {
           </Icon>
         </SuiBox>
         by
-        <Link href={href} target="_blank">
+        <Link href="https://www.creative-tim.com/" target="_blank">
           <SuiTypography variant="button" fontWeight="medium">
-            &nbsp;{name}&nbsp;
+            &nbsp;Said Mmevela&nbsp;
           </SuiTypography>
         </Link>
         for a better web.
@@ -99,18 +99,18 @@ function Footer({ company, links }) {
 
 // Setting default values for the props of Footer
 Footer.defaultProps = {
-  company: { href: "https://www.creative-tim.com/", name: "Creative Tim" },
+  // company: { href: "https://www.creative-tim.com/", name: "Creative Tim" },
   links: [
-    { href: "https://www.creative-tim.com/", name: "Creative Tim" },
-    { href: "https://www.creative-tim.com/presentation", name: "About Us" },
-    { href: "https://www.creative-tim.com/blog", name: "Blog" },
-    { href: "https://www.creative-tim.com/license", name: "License" },
+    // { href: "https://www.creative-tim.com/", name: "Creative Tim" },
+    // { href: "https://www.creative-tim.com/presentation", name: "About Us" },
+    // { href: "https://www.creative-tim.com/blog", name: "Blog" },
+    // { href: "https://www.creative-tim.com/license", name: "License" },
   ],
 };
 
 // Typechecking props for the Footer
 Footer.propTypes = {
-  company: PropTypes.objectOf(PropTypes.string),
+  // company: PropTypes.objectOf(PropTypes.string),
   links: PropTypes.arrayOf(PropTypes.object),
 };
 
