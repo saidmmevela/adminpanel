@@ -40,16 +40,17 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const [head, setHeads] = useState([]);
-  const handleSubmit = async(event)=>{
-    const log={
+  const handleSubmit = async () => {
+    const log = {
       email,
-      password
-    }
-    const response = await fetch("https://bizzynapp.herokuapp.com/api/userlogin",{
-      method:"POST",body:JSON.stringify(log)
-    });
+      password,
+    };
+  const response = await fetch("https://bizzynapp.herokuapp.com/api/userlogin",{
+      method: "POST",
+      body: JSON.stringify(log)
+  });
     const data = await response.json();
-    console.log("data",data);
+    console.log("data", data);
 
   };
   // const fetchPost = async () => {
@@ -75,7 +76,12 @@ function SignIn() {
               Email
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
+          <SuiInput 
+            type="email" 
+            placeholder="Email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+          />
         </SuiBox>
         <SuiBox mb={2}>
           <SuiBox mb={1} ml={0.5}>
@@ -83,7 +89,12 @@ function SignIn() {
               Password
             </SuiTypography>
           </SuiBox>
-          <SuiInput type="password" placeholder="Password"  value={password} onChange={(e)=>setPassword(e.target.value)}/>
+          <SuiInput 
+            type="password" 
+            placeholder="Password"  
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </SuiBox>
         <SuiBox display="flex" alignItems="center">
           <Switch checked={rememberMe} onChange={handleSetRememberMe} />
