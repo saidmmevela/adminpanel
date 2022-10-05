@@ -53,7 +53,7 @@ function SignIn() {
       $.ajax({
         type: "POST",
         enctype: "multipart/form-data",
-        url: "http://localhost:5000/api/userlogin",
+        url: "https://bizzynapp.herokuapp.com/api/userlogin",
         data: log,
         cache: false,
         success: (data) => {

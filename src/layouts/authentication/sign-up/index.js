@@ -70,7 +70,7 @@ function SignUp() {
         $.ajax({
           type: "POST",
           enctype: "multipart/form-data",
-          url: "http://localhost:5000/api/registeruser",
+          url: "https://bizzynapp.herokuapp.com/api/registeruser",
           data: log,
           cache: false,
           success: (data) => {
