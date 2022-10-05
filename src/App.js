@@ -41,6 +41,8 @@ import theme from "assets/theme";
 
 // Soft UI Dashboard React routes
 import routes from "routes";
+import routes1 from "routes1";
+import { getSessionCookie } from "session";
 
 // Soft UI Dashboard React contexts
 import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -161,12 +163,12 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {layout === "dashboard" && (
+      {layout === "dashboard" && getSessionCookie().email && (
         <>
           <Sidenav
             color={sidenavColor}
             brand={brand}
-            brandName="Soft UI Dashboard"
+            brandName="Soft UI Dashboard {}"
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
@@ -177,8 +179,12 @@ export default function App() {
       )}
       {layout === "vr" && <Configurator />}
       <Routes>
-        {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        {getRoutes(getSessionCookie().email ? routes : routes1)}
+        {getSessionCookie().email ? (
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+        ) : (
+          <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
+        )}
       </Routes>
     </ThemeProvider>
   );

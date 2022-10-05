@@ -27,6 +27,7 @@ import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
 import SuiInput from "components/SuiInput";
 import SuiButton from "components/SuiButton";
+import $ from "jquery";
 
 // Authentication layout components
 import BasicLayout from "layouts/authentication/components/BasicLayout";
@@ -49,9 +50,13 @@ function SignUp() {
   const [fullname, setFullname] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [password, setPassword] = useState("");
+  const [rpassword, setRPassword] = useState("");
+  const [load, setLoad] = useState(false);
   // const stats = ["Doctor","Patient"];
   // const [head, setHeads] = useState([]);
+  const loading = async () => {};
   const handleSubmit = async () => {
+    setLoad(true);
     const log = {
       full_name: fullname,
       phone_no: phoneNo,
@@ -59,12 +64,42 @@ function SignUp() {
       email,
       password,
     };
-    const response = await fetch("https://bizzynapp.herokuapp.com/api/registeruser", {
-      method: "POST",
-      body: JSON.stringify(log),
-    });
-    const data = await response.json();
-    console.log("data", data);
+    console.log("data", log);
+    if (fullname !== "" || phoneNo !== "" || email !== "" || password !== "") {
+      if (password === rpassword) {
+        $.ajax({
+          type: "POST",
+          enctype: "multipart/form-data",
+          url: "http://localhost:5000/api/registeruser",
+          data: log,
+          cache: false,
+          success: (data) => {
+            // const data = await response.json();
+            console.log("data", data);
+            if (data.data === "User Already Exist") {
+              alert("Email Already used by another user");
+              setLoad(false);
+            } else {
+              alert("success signup");
+              setLoad(false);
+              setEmail("");
+              setFullname("");
+              setPassword("");
+              setPhoneNo("");
+            }
+          },
+          error: (xhr, status, err) => {
+            alert(err);
+          },
+        });
+      } else {
+        alert("password must match");
+        setLoad(false);
+      }
+    } else {
+      alert("please fill all spaces");
+      setLoad(false);
+    }
   };
 
   return (
@@ -116,6 +151,14 @@ function SignUp() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </SuiBox>
+            <SuiBox mb={2}>
+              <SuiInput
+                type="password"
+                placeholder="Confirm Password"
+                value={rpassword}
+                onChange={(e) => setRPassword(e.target.value)}
+              />
+            </SuiBox>
             <SuiBox display="flex" alignItems="center">
               <SuiTypography component="a" href="#" variant="button" fontWeight="bold" textGradient>
                 SignUp as
@@ -144,8 +187,13 @@ function SignUp() {
               </SuiTypography>
             </SuiBox>
             <SuiBox mt={4} mb={1}>
-              <SuiButton variant="gradient" color="dark" onClick={handleSubmit} fullWidth>
-                sign up
+              <SuiButton
+                variant="gradient"
+                color="dark"
+                onClick={load ? loading : handleSubmit}
+                fullWidth
+              >
+                {load ? "Loading" : "sign up"}
               </SuiButton>
             </SuiBox>
             <SuiBox mt={3} textAlign="center">

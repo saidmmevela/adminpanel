@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState, useEffect } from "react";
 
 // react-router components
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -53,6 +53,7 @@ import {
   setMiniSidenav,
   // setOpenConfigurator,
 } from "context";
+import Cookies from "js-cookie";
 
 // Images
 // import team2 from "assets/images/team-2.jpg";
@@ -90,6 +91,12 @@ function DashboardNavbar({ absolute, light, isMini }) {
     // Remove event listener on cleanup
     return () => window.removeEventListener("scroll", handleTransparentNavbar);
   }, [dispatch, fixedNavbar]);
+
+  const logout = () => {
+    Cookies.remove("session");
+    console.log("email");
+    window.location.reload();
+  };
 
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
   // const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
@@ -154,24 +161,24 @@ function DashboardNavbar({ absolute, light, isMini }) {
               />
             </SuiBox>
             <SuiBox color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in">
-                <IconButton sx={navbarIconButton} size="small">
-                  <Icon
-                    sx={({ palette: { dark, white } }) => ({
-                      color: light ? white.main : dark.main,
-                    })}
-                  >
-                    account_circle
-                  </Icon>
-                  <SuiTypography
-                    variant="button"
-                    fontWeight="medium"
-                    color={light ? "white" : "dark"}
-                  >
-                    Sign in
-                  </SuiTypography>
-                </IconButton>
-              </Link>
+              {/* <Link to="/authentication/sign-in"> */}
+              <IconButton sx={navbarIconButton} onClick={logout} size="small">
+                <Icon
+                  sx={({ palette: { dark, white } }) => ({
+                    color: light ? white.main : dark.main,
+                  })}
+                >
+                  account_circle
+                </Icon>
+                <SuiTypography
+                  variant="button"
+                  fontWeight="medium"
+                  color={light ? "white" : "dark"}
+                >
+                  Logout
+                </SuiTypography>
+              </IconButton>
+              {/* </Link> */}
               <IconButton
                 size="small"
                 color="inherit"
