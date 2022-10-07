@@ -76,7 +76,8 @@ function Dashboard() {
         }
       },
       error: (xhr, status, err) => {
-        alert(err);
+        // alert(err);
+        console.log("err", err);
       },
     });
   };
@@ -88,7 +89,7 @@ function Dashboard() {
     $.ajax({
       type: "POST",
       enctype: "multipart/form-data",
-      url: "https://bizzynapp.herokuapp.com/api/doctorappointment",
+      url: "http://localhost:5000/api/doctorappointment",
       data: log,
       cache: false,
       success: (data) => {
@@ -107,14 +108,15 @@ function Dashboard() {
         }
       },
       error: (xhr, status, err) => {
-        alert(err);
+        // alert(err);
+        console.log("err", err);
       },
     });
   };
   useEffect(() => {
     getdoctor();
     getappointment();
-  });
+  }, []);
 
   return (
     <DashboardLayout>

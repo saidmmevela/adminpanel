@@ -82,7 +82,7 @@ function Tables() {
     $.ajax({
       type: "POST",
       enctype: "multipart/form-data",
-      url: "http://localhost:5000/api/userbyrole",
+      url: "https://bizzynapp.herokuapp.com/api/userbyrole",
       data: log,
       cache: false,
       success: (data) => {
@@ -184,7 +184,7 @@ function Tables() {
       { name: "statu", align: "center" },
     ],
   };
-  console.log("rowsa", rowsa);
+  // console.log("rowsa", rowsa);
 
   const { columns } = fullnamesTableData;
   // const { columns: prCols, rows: prRows } = projectsTableData;
@@ -331,39 +331,38 @@ function Tables() {
   const handleSubmit = async () => {
     setLoad(true);
     const log = {
-      full_name: time,
+      email,
+      pat: getSessionCookie().email,
+      time,
       date,
     };
     console.log("data", log);
-    if (time !== "" || date !== "") {
-      if (time) {
-        $.ajax({
-          type: "POST",
-          enctype: "multipart/form-data",
-          url: "https://bizzynapp.herokuapp.com/api/registeruser",
-          data: log,
-          cache: false,
-          success: (data) => {
-            // const data = await response.json();
-            console.log("data", data);
-            if (data.data === "User Already Exist") {
-              alert("date Already used by another user");
-              setLoad(false);
-            } else {
-              alert("success signup");
-              setLoad(false);
-              setdate("");
-              settime("");
-            }
-          },
-          error: (xhr, statu, err) => {
-            alert(err);
-          },
-        });
-      } else {
-        alert("password must match");
-        setLoad(false);
-      }
+    if (time !== "" || date !== "" || email !== "") {
+      $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        url: "http://localhost:5000/api/setappointment",
+        data: log,
+        cache: false,
+        success: (data) => {
+          // const data = await response.json();
+          console.log("data", data);
+          if (data.data === "wrong email") {
+            alert("Wrong email for the doctor");
+            setLoad(false);
+          } else {
+            alert("success setting appointment");
+            setLoad(false);
+            setdate("");
+            settime("");
+            setEmail("");
+          }
+        },
+        error: (xhr, statu, err) => {
+          alert(err);
+          setLoad(false);
+        },
+      });
     } else {
       alert("please fill all spaces");
       setLoad(false);
