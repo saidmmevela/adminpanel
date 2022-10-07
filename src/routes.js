@@ -38,8 +38,9 @@ Coded by www.creative-tim.com
 // Soft UI Dashboard React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
-import Billing from "layouts/billing";
-import VirtualReality from "layouts/virtual-reality";
+import Appointment from "layouts/appointment";
+// import Billing from "layouts/billing";
+// import VirtualReality from "layouts/virtual-reality";
 // import RTL from "layouts/rtl";
 import Profile from "layouts/profile";
 
@@ -47,8 +48,9 @@ import Profile from "layouts/profile";
 import Shop from "examples/Icons/Shop";
 import Office from "examples/Icons/Office";
 import CustomerSupport from "examples/Icons/CustomerSupport";
-import CreditCard from "examples/Icons/CreditCard";
-import Cube from "examples/Icons/Cube";
+// import CreditCard from "examples/Icons/CreditCard";
+// import Cube from "examples/Icons/Cube";
+import { getSessionCookie } from "./session";
 
 const routes = [
   {
@@ -60,33 +62,44 @@ const routes = [
     component: <Dashboard />,
     noCollapse: true,
   },
+  getSessionCookie().status !== "doctor"
+    ? {
+        type: "collapse",
+        name: getSessionCookie().status === "patient" ? "Doctors" : "Users",
+        key: getSessionCookie().status === "patient" ? "doctors" : "users",
+        route: getSessionCookie().status === "patient" ? "/doctors" : "/users",
+        icon: <Office size="12px" />,
+        component: <Tables />,
+        noCollapse: true,
+      }
+    : {},
   {
     type: "collapse",
-    name: "Tables",
-    key: "tables",
-    route: "/tables",
+    name: "Appointment",
+    key: "appointment",
+    route: "/appointment",
     icon: <Office size="12px" />,
-    component: <Tables />,
+    component: <Appointment />,
     noCollapse: true,
   },
-  {
-    type: "collapse",
-    name: "Billing",
-    key: "billing",
-    route: "/billing",
-    icon: <CreditCard size="12px" />,
-    component: <Billing />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Virtual Reality",
-    key: "virtual-reality",
-    route: "/virtual-reality",
-    icon: <Cube size="12px" />,
-    component: <VirtualReality />,
-    noCollapse: true,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Billing",
+  //   key: "billing",
+  //   route: "/billing",
+  //   icon: <CreditCard size="12px" />,
+  //   component: <Billing />,
+  //   noCollapse: true,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Virtual Reality",
+  //   key: "virtual-reality",
+  //   route: "/virtual-reality",
+  //   icon: <Cube size="12px" />,
+  //   component: <VirtualReality />,
+  //   noCollapse: true,
+  // },
   // {
   //   type: "collapse",
   //   name: "RTL",
@@ -96,16 +109,20 @@ const routes = [
   //   component: <RTL />,
   //   noCollapse: true,
   // },
-  { type: "title", title: "Account Pages", key: "account-pages" },
-  {
-    type: "collapse",
-    name: "Profile",
-    key: "profile",
-    route: "/profile",
-    icon: <CustomerSupport size="12px" />,
-    component: <Profile />,
-    noCollapse: true,
-  },
+  getSessionCookie().status === "doctor"
+    ? { type: "title", title: "Account Pages", key: "account-pages" }
+    : {},
+  getSessionCookie().status === "doctor"
+    ? {
+        type: "collapse",
+        name: "Profile",
+        key: "profile",
+        route: "/profile",
+        icon: <CustomerSupport size="12px" />,
+        component: <Profile />,
+        noCollapse: true,
+      }
+    : {},
 ];
 
 export default routes;

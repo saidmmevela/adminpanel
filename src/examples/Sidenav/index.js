@@ -42,7 +42,7 @@ import sidenavLogoLabel from "examples/Sidenav/styles/sidenav";
 
 // Soft UI Dashboard React context
 import { useSoftUIController, setMiniSidenav } from "context";
-import { getSessionCookie } from "../../session";
+// import { getSessionCookie } from "../../session";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useSoftUIController();
@@ -151,7 +151,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}
           >
             <SuiTypography component="h6" variant="button" fontWeight="medium">
-              Kalen Medics {getSessionCookie().name}
+              Kalen Medics
             </SuiTypography>
           </SuiBox>
         </SuiBox>
