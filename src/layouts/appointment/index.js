@@ -84,6 +84,62 @@ function Appointment() {
       },
     });
   };
+  const acceptAppoint = async (dat) => {
+    console.log("id: ", dat);
+    $.ajax({
+      type: "POST",
+      enctype: "multipart/form-data",
+      url: "https://bizzynapp.herokuapp.com/api/acceptappointment",
+      data: dat,
+      cache: false,
+      success: (data) => {
+        // const data = await response.json();
+        console.log("data", data);
+        if (data.data === "no appointment") {
+          // alert("Wrong email/password");
+          // setLoad(false);
+        } else {
+          console.log("datafetch", data.data);
+          setDoc(data.data);
+          // const dato = data.data;
+          console.log("data", docdata);
+          alert("Appointment accepted");
+          window.location.reload();
+        }
+      },
+      error: (xhr, status, err) => {
+        alert(err);
+      },
+    });
+  };
+  const rejectAppoint = async (dat) => {
+    console.log("id: ", dat);
+    $.ajax({
+      type: "POST",
+      enctype: "multipart/form-data",
+      url: "https://bizzynapp.herokuapp.com/api/rejectappointment",
+      data: dat,
+      cache: false,
+      success: (data) => {
+        // const data = await response.json();
+        console.log("data", data);
+        if (data.data === "no appointment") {
+          // alert("Wrong email/password");
+          // setLoad(false);
+        } else {
+          console.log("datafetch", data.data);
+          setDoc(data.data);
+          // const dato = data.data;
+          console.log("data", docdata);
+          alert("Appointment rejected");
+          window.location.reload();
+        }
+      },
+      error: (xhr, status, err) => {
+        alert(err);
+      },
+    });
+  };
   const getappointment = async () => {
     // const email = getSessionCookie().email;
     const log = {
@@ -165,7 +221,7 @@ function Appointment() {
                 (getSessionCookie().status === "patient" && (
                   <SuiBadge
                     variant="gradient"
-                    badgeContent={dats.status}
+                    badgeContent={dats.response === "" ? "waiting" : dats.response}
                     color="info"
                     size="xs"
                     container
@@ -181,10 +237,30 @@ function Appointment() {
                     Delete
                   </SuiButton>
                 )) ||
-                (getSessionCookie().status === "doctor" && (
+                (getSessionCookie().status === "doctor" && dats.response === "" && (
+                  <SuiBox display="flex" flexDirection="column">
+                    <SuiButton
+                      variant="gradient"
+                      color="info"
+                      onClick={() => acceptAppoint(dats)}
+                      // fullWidth
+                    >
+                      accept
+                    </SuiButton>
+                    <SuiButton
+                      variant="gradient"
+                      color="warning"
+                      onClick={() => rejectAppoint(dats)}
+                      // fullWidth
+                    >
+                      reject
+                    </SuiButton>
+                  </SuiBox>
+                )) ||
+                (getSessionCookie().status === "doctor" && dats.response !== "" && (
                   <SuiBadge
                     variant="gradient"
-                    badgeContent="online"
+                    badgeContent={dats.response}
                     color="info"
                     size="xs"
                     container
