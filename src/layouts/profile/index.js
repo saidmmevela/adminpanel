@@ -14,166 +14,176 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
+// import Grid from "@mui/material/Grid";
+// import Card from "@mui/material/Card";
 
-// @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
+// // @mui icons
+// import FacebookIcon from "@mui/icons-material/Facebook";
+// import TwitterIcon from "@mui/icons-material/Twitter";
+// import InstagramIcon from "@mui/icons-material/Instagram";
+import { useState, useEffect } from "react";
 
 // Soft UI Dashboard React components
 import SuiBox from "components/SuiBox";
-import SuiTypography from "components/SuiTypography";
+// import SuiTypography from "components/SuiTypography";
 
 // Soft UI Dashboard React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Footer from "examples/Footer";
-import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
-import ProfilesList from "examples/Lists/ProfilesList";
-import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
-import PlaceholderCard from "examples/Cards/PlaceholderCard";
+// import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
+// import ProfilesList from "examples/Lists/ProfilesList";
+// import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
+// import PlaceholderCard from "examples/Cards/PlaceholderCard";
+// react-router-dom components
+
+// Soft UI Dashboard React components
+// import SuiBox from "components/SuiBox";
+import SuiTypography from "components/SuiTypography";
+import SuiInput from "components/SuiInput";
+import SuiButton from "components/SuiButton";
+
+// @mui material components
+import Card from "@mui/material/Card";
+// import Checkbox from "@mui/material/Checkbox";
+import Divider from "@mui/material/Divider";
 
 // Overview page components
 import Header from "layouts/profile/components/Header";
-import PlatformSettings from "layouts/profile/components/PlatformSettings";
+import $ from "jquery";
+import { getSessionCookie } from "../../session";
+// import PlatformSettings from "layouts/profile/components/PlatformSettings";
 
 // Data
-import profilesListData from "layouts/profile/data/profilesListData";
+// import profilesListData from "layouts/profile/data/profilesListData";
 
 // Images
-import homeDecor1 from "assets/images/home-decor-1.jpg";
-import homeDecor2 from "assets/images/home-decor-2.jpg";
-import homeDecor3 from "assets/images/home-decor-3.jpg";
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+// import homeDecor1 from "assets/images/home-decor-1.jpg";
+// import homeDecor2 from "assets/images/home-decor-2.jpg";
+// import homeDecor3 from "assets/images/home-decor-3.jpg";
+// import team1 from "assets/images/team-1.jpg";
+// import team2 from "assets/images/team-2.jpg";
+// import team3 from "assets/images/team-3.jpg";
+// import team4 from "assets/images/team-4.jpg";
 
 function Overview() {
+  const [fullname, setFullname] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [load, setLoad] = useState(false);
+  // const stats = ["Doctor","Patient"];
+  // const [head, setHeads] = useState([]);
+  const loading = async () => {};
+  const getuser = async () => {
+    // const email = getSessionCookie().email;
+    const log = {
+      email: getSessionCookie().email,
+    };
+    $.ajax({
+      type: "POST",
+      enctype: "multipart/form-data",
+      url: "https://bizzynapp.herokuapp.com/api/getuser",
+      data: log,
+      cache: false,
+      success: (data) => {
+        // const data = await response.json();
+        console.log("data", data);
+        if (data.data === "no user") {
+          // alert("Wrong email/password");
+          // setLoad(false);
+        } else {
+          console.log("datafetch", data.data);
+          const dat = data.data;
+          setFullname(dat[0].full_name);
+          setPhoneNo(dat[0].phone_no);
+          // alert("success login");
+        }
+      },
+      error: (xhr, status, err) => {
+        // alert(err);
+        console.log("err", err);
+      },
+    });
+  };
+  const handleSubmit = async () => {
+    setLoad(true);
+    const log = {
+      full_name: fullname,
+      phone_no: phoneNo,
+      email: getSessionCookie().email,
+    };
+    console.log("data", log);
+    if (fullname !== "" || phoneNo !== "") {
+      $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        url: "https://bizzynapp.herokuapp.com/api/Updatedoctor",
+        data: log,
+        cache: false,
+        success: (data) => {
+          // const data = await response.json();
+          console.log("data", data);
+          if (data.data === "User Already Exist") {
+            alert("Email Already used by another user");
+            setLoad(false);
+          } else {
+            alert("success update");
+            setLoad(false);
+          }
+        },
+        error: (xhr, status, err) => {
+          alert(err);
+        },
+      });
+    } else {
+      alert("please fill all spaces");
+      setLoad(false);
+    }
+  };
+  useEffect(() => {
+    getuser();
+  }, []);
   return (
     <DashboardLayout>
       <Header />
-      <SuiBox mt={5} mb={3}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} xl={4}>
-            <PlatformSettings />
-          </Grid>
-          <Grid item xs={12} md={6} xl={4}>
-            <ProfileInfoCard
-              title="profile information"
-              description="Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
-              info={{
-                fullName: "Alec M. Thompson",
-                mobile: "(44) 123 1234 123",
-                email: "alecthompson@mail.com",
-                location: "USA",
-              }}
-              social={[
-                {
-                  link: "https://www.facebook.com/CreativeTim/",
-                  icon: <FacebookIcon />,
-                  color: "facebook",
-                },
-                {
-                  link: "https://twitter.com/creativetim",
-                  icon: <TwitterIcon />,
-                  color: "twitter",
-                },
-                {
-                  link: "https://www.instagram.com/creativetimofficial/",
-                  icon: <InstagramIcon />,
-                  color: "instagram",
-                },
-              ]}
-              action={{ route: "", tooltip: "Edit Profile" }}
-            />
-          </Grid>
-          <Grid item xs={12} xl={4}>
-            <ProfilesList title="conversations" profiles={profilesListData} />
-          </Grid>
-        </Grid>
-      </SuiBox>
+      <Divider />
       <SuiBox mb={3}>
         <Card>
-          <SuiBox pt={2} px={2}>
-            <SuiBox mb={0.5}>
-              <SuiTypography variant="h6" fontWeight="medium">
-                Projects
-              </SuiTypography>
-            </SuiBox>
-            <SuiBox mb={1}>
-              <SuiTypography variant="button" fontWeight="regular" color="text">
-                Architects design houses
-              </SuiTypography>
-            </SuiBox>
+          <SuiBox p={3} mb={1} textAlign="center">
+            <SuiTypography variant="h5" fontWeight="medium">
+              Update Profile
+            </SuiTypography>
           </SuiBox>
-          <SuiBox p={2}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6} xl={3}>
-                <DefaultProjectCard
-                  image={homeDecor1}
-                  label="project #2"
-                  title="modern"
-                  description="As Uber works through a huge amount of internal management turmoil."
-                  action={{
-                    type: "internal",
-                    route: "/pages/profile/profile-overview",
-                    color: "info",
-                    label: "view project",
-                  }}
-                  authors={[
-                    { image: team1, name: "Elena Morison" },
-                    { image: team2, name: "Ryan Milly" },
-                    { image: team3, name: "Nick Daniel" },
-                    { image: team4, name: "Peterson" },
-                  ]}
+          {/* <SuiBox mb={2}>
+            <Socials />
+          </SuiBox> */}
+          {/* <Separator /> */}
+          <SuiBox pt={2} pb={3} px={3}>
+            <SuiBox component="form" role="form">
+              <SuiBox mb={2}>
+                <SuiInput
+                  placeholder="Full Name"
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
                 />
-              </Grid>
-              <Grid item xs={12} md={6} xl={3}>
-                <DefaultProjectCard
-                  image={homeDecor2}
-                  label="project #1"
-                  title="scandinavian"
-                  description="Music is something that every person has his or her own specific opinion about."
-                  action={{
-                    type: "internal",
-                    route: "/pages/profile/profile-overview",
-                    color: "info",
-                    label: "view project",
-                  }}
-                  authors={[
-                    { image: team3, name: "Nick Daniel" },
-                    { image: team4, name: "Peterson" },
-                    { image: team1, name: "Elena Morison" },
-                    { image: team2, name: "Ryan Milly" },
-                  ]}
+              </SuiBox>
+              <SuiBox mb={2}>
+                <SuiInput
+                  type="number"
+                  placeholder="Phone Number"
+                  value={phoneNo}
+                  onChange={(e) => setPhoneNo(e.target.value)}
                 />
-              </Grid>
-              <Grid item xs={12} md={6} xl={3}>
-                <DefaultProjectCard
-                  image={homeDecor3}
-                  label="project #3"
-                  title="minimalist"
-                  description="Different people have different taste, and various types of music."
-                  action={{
-                    type: "internal",
-                    route: "/pages/profile/profile-overview",
-                    color: "info",
-                    label: "view project",
-                  }}
-                  authors={[
-                    { image: team4, name: "Peterson" },
-                    { image: team3, name: "Nick Daniel" },
-                    { image: team2, name: "Ryan Milly" },
-                    { image: team1, name: "Elena Morison" },
-                  ]}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} xl={3}>
-                <PlaceholderCard title={{ variant: "h5", text: "New project" }} outlined />
-              </Grid>
-            </Grid>
+              </SuiBox>
+              <SuiBox mt={4} mb={1}>
+                <SuiButton
+                  variant="gradient"
+                  color="dark"
+                  onClick={load ? loading : handleSubmit}
+                  fullWidth
+                >
+                  {load ? "Loading" : "update"}
+                </SuiButton>
+              </SuiBox>
+            </SuiBox>
           </SuiBox>
         </Card>
       </SuiBox>

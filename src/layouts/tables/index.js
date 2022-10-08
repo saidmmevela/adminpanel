@@ -74,6 +74,35 @@ function Tables() {
   //   { full_name: "fullnameg", phone: "left" },
   //   { full_name: "fullnamel", phone: "left" },
   // ];
+  const deleteAppoint = async (dat) => {
+    console.log("id: ", dat);
+    $.ajax({
+      type: "POST",
+      enctype: "multipart/form-data",
+      url: "https://bizzynapp.herokuapp.com/api/Removeuser",
+      data: dat,
+      cache: false,
+      success: (data) => {
+        // const data = await response.json();
+        console.log("data", data);
+        if (data.data === "no user") {
+          // alert("Wrong email/password");
+          // setLoad(false);
+        } else {
+          console.log("datafetch", data.data);
+          setDoc(data.data);
+          // const dato = data.data;
+          console.log("data", docdata);
+          alert("Success Delete");
+          window.location.reload();
+        }
+      },
+      error: (xhr, status, err) => {
+        // alert(err);
+        console.log("err", err);
+      },
+    });
+  };
   const getdoctor = async () => {
     // const email = getSessionCookie().email;
     const log = {
@@ -119,69 +148,47 @@ function Tables() {
                   <SuiTypography variant="caption" fontWeight="medium" color="text">
                     {dats.phone_no}
                   </SuiTypography>
-                  <SuiTypography variant="caption" color="secondary">
-                    org
-                  </SuiTypography>
                 </SuiBox>
               ),
-              statu: (
-                <SuiBadge
-                  variant="gradient"
-                  badgeContent="online"
-                  color="success"
-                  size="xs"
-                  container
-                />
-              ),
+              status:
+                (getSessionCookie().status === "patient" && (
+                  <SuiBadge
+                    variant="gradient"
+                    badgeContent={dats.status}
+                    color="success"
+                    size="xs"
+                    container
+                  />
+                )) ||
+                (getSessionCookie().status === "admin" && dats.status !== "admin" && (
+                  <SuiButton
+                    variant="gradient"
+                    color="warning"
+                    size="xs"
+                    onClick={() => deleteAppoint(dats)}
+                    // fullWidth
+                  >
+                    Delete
+                  </SuiButton>
+                )),
             })),
           ]);
         }
       },
       error: (xhr, status, err) => {
-        alert(err);
+        // alert(err);
+        console.log("err", err);
       },
     });
   };
   useEffect(() => {
     getdoctor();
-    // setRosa([
-    //   docdata.map(({ full_name }) => ({
-    //     Full_Name: (
-    //       <SuiBox display="flex" alignItems="center" px={1} py={0.5}>
-    //         <SuiBox mr={2}>
-    //           <SuiAvatar src={team2} alt="name" size="sm" variant="rounded" />
-    //         </SuiBox>
-    //         <SuiBox display="flex" flexDirection="column">
-    //           <SuiTypography variant="button" fontWeight="medium">
-    //             {full_name}
-    //           </SuiTypography>
-    //           <SuiTypography variant="caption" color="secondary">
-    //             email@gmail.com
-    //           </SuiTypography>
-    //         </SuiBox>
-    //       </SuiBox>
-    //     ),
-    //     Phone_Number: (
-    //       <SuiBox display="flex" flexDirection="column">
-    //         <SuiTypography variant="caption" fontWeight="medium" color="text">
-    //           job
-    //         </SuiTypography>
-    //         <SuiTypography variant="caption" color="secondary">
-    //           org
-    //         </SuiTypography>
-    //       </SuiBox>
-    //     ),
-    //     statu: (
-    //       <SuiBadge variant="gradient" badgeContent="online" color="success" size="xs" container />
-    //     ),
-    //   })),
-    // ]);
   }, []);
   const fullnamesTableData = {
     columns: [
       { name: "fullname", align: "left" },
       { name: "phone", align: "left" },
-      { name: "statu", align: "center" },
+      { name: "status", align: "center" },
     ],
   };
   // console.log("rowsa", rowsa);
@@ -314,13 +321,16 @@ function Tables() {
             <SuiTypography variant="caption" fontWeight="medium" color="text">
               {dats.phone_no}
             </SuiTypography>
-            <SuiTypography variant="caption" color="secondary">
-              org
-            </SuiTypography>
           </SuiBox>
         ),
-        statu: (
-          <SuiBadge variant="gradient" badgeContent="online" color="success" size="xs" container />
+        status: (
+          <SuiBadge
+            variant="gradient"
+            badgeContent={dats.status}
+            color="success"
+            size="xs"
+            container
+          />
         ),
       })),
     ]);
@@ -341,7 +351,7 @@ function Tables() {
       $.ajax({
         type: "POST",
         enctype: "multipart/form-data",
-        url: "http://localhost:5000/api/setappointment",
+        url: "https://bizzynapp.herokuapp.com/api/setappointment",
         data: log,
         cache: false,
         success: (data) => {
@@ -372,69 +382,75 @@ function Tables() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <Card>
-        <SuiBox p={3} mb={1} textAlign="center">
-          <SuiTypography variant="h5" fontWeight="medium">
-            Set Appoinment
-          </SuiTypography>
-        </SuiBox>
-        {/* <SuiBox mb={2}>
-          <Socials />
-        </SuiBox> */}
-        {/* <Separator /> */}
-        <SuiBox pt={2} pb={3} px={3}>
-          <SuiBox component="form" role="form">
-            <SuiBox mb={2}>
-              <SuiInput
-                type="email"
-                placeholder="Doctor Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </SuiBox>
-            <SuiBox mb={2}>
-              <SuiInput
-                type="time"
-                placeholder="Time"
-                value={time}
-                onChange={(e) => settime(e.target.value)}
-              />
-            </SuiBox>
-            <SuiBox mb={2}>
-              <SuiInput
-                type="date"
-                placeholder="Date"
-                value={date}
-                onChange={(e) => setdate(e.target.value)}
-              />
-            </SuiBox>
-            <SuiBox mt={4} mb={1}>
-              <SuiButton
-                variant="gradient"
-                color="dark"
-                onClick={load ? loading : handleSubmit}
-                fullWidth
-              >
-                {load ? "Loading" : "submit"}
-              </SuiButton>
+      {getSessionCookie().status === "patient" && (
+        <Card>
+          <SuiBox p={3} mb={1} textAlign="center">
+            <SuiTypography variant="h5" fontWeight="medium">
+              Set Appoinment
+            </SuiTypography>
+          </SuiBox>
+          {/* <SuiBox mb={2}>
+            <Socials />
+          </SuiBox> */}
+          {/* <Separator /> */}
+          <SuiBox pt={2} pb={3} px={3}>
+            <SuiBox component="form" role="form">
+              <SuiBox mb={2}>
+                <SuiInput
+                  type="email"
+                  placeholder="Doctor Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </SuiBox>
+              <SuiBox mb={2}>
+                <SuiInput
+                  type="time"
+                  placeholder="Time"
+                  value={time}
+                  onChange={(e) => settime(e.target.value)}
+                />
+              </SuiBox>
+              <SuiBox mb={2}>
+                <SuiInput
+                  type="date"
+                  placeholder="Date"
+                  value={date}
+                  onChange={(e) => setdate(e.target.value)}
+                />
+              </SuiBox>
+              <SuiBox mt={4} mb={1}>
+                <SuiButton
+                  variant="gradient"
+                  color="dark"
+                  onClick={load ? loading : handleSubmit}
+                  fullWidth
+                >
+                  {load ? "Loading" : "submit"}
+                </SuiButton>
+              </SuiBox>
             </SuiBox>
           </SuiBox>
-        </SuiBox>
-      </Card>
+        </Card>
+      )}
       <SuiBox py={3}>
         <SuiBox mb={3}>
           <Card>
             <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SuiTypography variant="h6">Doctors</SuiTypography>
+              <SuiTypography variant="h6">
+                {getSessionCookie().status === "patient" ? "Doctors" : "Users"}
+              </SuiTypography>
             </SuiBox>
-            <SuiBox pr={1}>
-              <SuiInput
-                placeholder="Search name..."
-                icon={{ component: "search", direction: "left" }}
-                value={search}
-                onChange={(e) => handleSearch(e.target.value)}
-              />
-            </SuiBox>
+            {getSessionCookie().status === "patient" && (
+              <SuiBox pr={1}>
+                <SuiInput
+                  placeholder="Search name..."
+                  icon={{ component: "search", direction: "left" }}
+                  value={search}
+                  onChange={(e) => handleSearch(e.target.value)}
+                />
+              </SuiBox>
+            )}
             <SuiBox
               sx={{
                 "& .MuiTableRow-root:not(:last-child)": {
